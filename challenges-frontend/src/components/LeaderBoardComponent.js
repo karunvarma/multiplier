@@ -1,11 +1,14 @@
 import * as React from 'react';
 import GameApiClient from '../services/GameApiClient';
 import ChallengesApiClient from '../services/ChallengesApiClient';
+import { useState } from "react";
 
 class LeaderBoardComponent extends React.Component {
 
+    
     constructor(props) {
         super(props);
+
         this.state = {
             leaderboard: [],
             serverError: false
@@ -53,6 +56,7 @@ class LeaderBoardComponent extends React.Component {
     refreshLeaderBoard() {
         this.getLeaderBoardData().then(
             lbData => {
+
                 let userIds = lbData.map(row => row.userId);
                 if(userIds.length > 0) {
                     this.getUserAliasData(userIds).then(data => {
@@ -67,7 +71,7 @@ class LeaderBoardComponent extends React.Component {
                         );
                         this.updateLeaderBoard(lbData);
                     }).catch(reason => {
-                        console.log('Error mapping user ids', reason);
+                        console.log('Error mapping user ids', reason,lbData);
                         this.updateLeaderBoard(lbData);
                     });
                 }
@@ -79,6 +83,9 @@ class LeaderBoardComponent extends React.Component {
     }
 
     render() {
+
+        console.log("render",this.state)
+
         if (this.state.serverError) {
             return (
                 <div>We're sorry, but we can't display game statistics at this
@@ -97,13 +104,15 @@ class LeaderBoardComponent extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.leaderboard.map(row => <tr key={row.userId}>
+                    {this.state.leaderboard && this.state.leaderboard.map(row => 
+                    <tr key={row.userId}>
                         <td>{row.alias ? row.alias : row.userId}</td>
                         <td>{row.totalScore}</td>
-                        <td>{row.badges.map(
+                        <td>{row.badges && row.badges.map(
                             b => <span className="badge" key={b}>{b}</span>)}
                         </td>
-                    </tr>)}
+                    </tr>)
+                    }
                     </tbody>
                 </table>
             </div>

@@ -1,5 +1,6 @@
 package com.vita9.multiplication.challenge;
 
+import com.vita9.multiplication.client.GamificationServiceClient;
 import com.vita9.multiplication.user.User;
 import com.vita9.multiplication.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,11 +30,13 @@ public class ChallengeServiceTest {
     @Mock
     private ChallengeAttemptRepository challengeAttemptRepository;
 
+    @Mock
+    private GamificationServiceClient gamificationServiceClient;
+
     @BeforeEach
     public void setUp(){
 
-        challengeService = new ChallengeServiceImpl(userRepository,challengeAttemptRepository);
-
+        challengeService = new ChallengeServiceImpl(userRepository,challengeAttemptRepository,gamificationServiceClient);
 
     }
 
@@ -55,6 +58,9 @@ public class ChallengeServiceTest {
 
         // the attempt should be stored
         verify(challengeAttemptRepository).save(result);
+
+        // verify the call to  game service client
+        verify(gamificationServiceClient).sendAttempt(result);
     }
 
     @Test
