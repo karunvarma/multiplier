@@ -1,11 +1,7 @@
 package com.vita9.gamification.gamification.game;
 
 
-import com.vita9.gamification.gamification.game.domain.BadgeType;
-import com.vita9.gamification.gamification.payload.ChallengeSolvedDTO;
-import lombok.Value;
-
-import java.util.List;
+import com.vita9.gamification.gamification.payload.ChallengeSolvedEvent;
 
 
 public interface GameService {
@@ -16,7 +12,7 @@ public interface GameService {
      * @return {@link  GameResult} object containing new score and
      * badge cards are obtained.
      */
-    GameResult newAttemptFromUser(ChallengeSolvedDTO challege);
+    GameResult newAttemptFromUser(ChallengeSolvedEvent challege);
 
 }
 

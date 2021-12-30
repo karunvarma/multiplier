@@ -6,7 +6,7 @@ import com.vita9.gamification.gamification.game.domain.BadgeType;
 import com.vita9.gamification.gamification.game.domain.ScoreCard;
 import com.vita9.gamification.gamification.game.repository.BadgeRepository;
 import com.vita9.gamification.gamification.game.repository.ScoreRepository;
-import com.vita9.gamification.gamification.payload.ChallengeSolvedDTO;
+import com.vita9.gamification.gamification.payload.ChallengeSolvedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class GameServiceImpl implements GameService{
     private final List<BadgeProvider> badgeProviderList;
 
     @Override
-    public GameResult newAttemptFromUser(ChallengeSolvedDTO challenge) {
+    public GameResult newAttemptFromUser(ChallengeSolvedEvent challenge) {
         if(challenge.isCorrect()){
 
             ScoreCard scoreCard = new ScoreCard(challenge.getAttemptId(),
@@ -59,7 +59,7 @@ public class GameServiceImpl implements GameService{
      * @param solvedDTO
      * @return
      */
-    private List<BadgeCard> processForBadges(ChallengeSolvedDTO solvedDTO) {
+    private List<BadgeCard> processForBadges(ChallengeSolvedEvent solvedDTO) {
 
         // get the total score of the user via DB query
         Optional<Integer> optionalTotalScore = scoreRepository.getTotalScoreForUser(solvedDTO.getUserId());

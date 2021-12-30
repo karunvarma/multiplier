@@ -7,7 +7,7 @@ import com.vita9.gamification.gamification.game.domain.BadgeType;
 import com.vita9.gamification.gamification.game.domain.ScoreCard;
 import com.vita9.gamification.gamification.game.repository.BadgeRepository;
 import com.vita9.gamification.gamification.game.repository.ScoreRepository;
-import com.vita9.gamification.gamification.payload.ChallengeSolvedDTO;
+import com.vita9.gamification.gamification.payload.ChallengeSolvedEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,8 +50,8 @@ public class GameServiceImplTest {
     public void processCorrectAttempt(){
 
         // given
-        ChallengeSolvedDTO challengeSolvedDTO =
-                new ChallengeSolvedDTO(10,10,1,1,true,"john");
+        ChallengeSolvedEvent challengeSolvedDTO =
+                new ChallengeSolvedEvent(10,10,1,1,true,"john");
 
         // construct the Scorecard
         ScoreCard scoreCard = new ScoreCard(challengeSolvedDTO.getAttemptId(),challengeSolvedDTO.getUserId());
@@ -60,7 +60,7 @@ public class GameServiceImplTest {
         given(scoreRepository.getTotalScoreForUser(challengeSolvedDTO.getUserId()))
                 .willReturn(Optional.of(30));
 
-        var badgeCardList = List.of(new BadgeCard(challengeSolvedDTO.getUserId(), BadgeType.BRONZE));
+        var badgeCardList = List.of(new BadgeCard(challengeSolvedDTO.getUserId(), BadgeType.FIRST_WON));
 
         // existing badges
         given(badgeRepository.findByUserId(challengeSolvedDTO.getUserId()))
@@ -71,7 +71,6 @@ public class GameServiceImplTest {
                 .willReturn(BadgeType.BRONZE);
 
         given(badgeProvider.provideBadge(30, badgeCardList)).willReturn(Optional.of(BadgeType.BRONZE));
-
 
         // when
         final GameResult gameResult = gameService.newAttemptFromUser(challengeSolvedDTO);
@@ -87,8 +86,8 @@ public class GameServiceImplTest {
     @Test
     public void processWrongAttempt(){
         // given
-        ChallengeSolvedDTO challengeSolvedDTO =
-                new ChallengeSolvedDTO(10,10,1,1,false,"john");
+        ChallengeSolvedEvent challengeSolvedDTO =
+                new ChallengeSolvedEvent(10,10,1,1,false,"john");
         // when
         GameResult gameResult = gameService.newAttemptFromUser(challengeSolvedDTO);
 

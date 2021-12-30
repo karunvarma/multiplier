@@ -1,7 +1,7 @@
 package com.vita9.gamification.gamification.game;
 
 
-import com.vita9.gamification.gamification.payload.ChallengeSolvedDTO;
+import com.vita9.gamification.gamification.payload.ChallengeSolvedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    void postAttempt(@RequestBody ChallengeSolvedDTO challengeSolvedDTO){
+    void postAttempt(@RequestBody ChallengeSolvedEvent challengeSolvedDTO){
             gameService.newAttemptFromUser(challengeSolvedDTO);
     }
 

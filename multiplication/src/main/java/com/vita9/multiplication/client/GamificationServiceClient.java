@@ -2,7 +2,7 @@ package com.vita9.multiplication.client;
 
 
 import com.vita9.multiplication.challenge.ChallengeAttempt;
-import com.vita9.multiplication.payload.ChallengeSolvedDTO;
+import com.vita9.multiplication.payload.ChallengeSolvedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,8 +28,8 @@ public class GamificationServiceClient {
     public boolean sendAttempt(final ChallengeAttempt challengeAttempt){
 
         try {
-            ChallengeSolvedDTO challengeSolvedDTO =
-                    new ChallengeSolvedDTO(
+            ChallengeSolvedEvent challengeSolvedDTO =
+                    new ChallengeSolvedEvent(
                             challengeAttempt.getId(),
                             challengeAttempt.getUser().getId(),
                             challengeAttempt.getFactorA(),

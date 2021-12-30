@@ -31,12 +31,12 @@ public class ChallengeServiceTest {
     private ChallengeAttemptRepository challengeAttemptRepository;
 
     @Mock
-    private GamificationServiceClient gamificationServiceClient;
+    private ChallengeEventPub challengeEventPub;
 
     @BeforeEach
     public void setUp(){
 
-        challengeService = new ChallengeServiceImpl(userRepository,challengeAttemptRepository,gamificationServiceClient);
+        challengeService = new ChallengeServiceImpl(userRepository,challengeAttemptRepository,challengeEventPub);
 
     }
 
@@ -60,7 +60,7 @@ public class ChallengeServiceTest {
         verify(challengeAttemptRepository).save(result);
 
         // verify the call to  game service client
-        verify(gamificationServiceClient).sendAttempt(result);
+        verify(challengeEventPub).challengeSolved(result);
     }
 
     @Test

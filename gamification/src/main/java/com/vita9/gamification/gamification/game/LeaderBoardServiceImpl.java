@@ -24,8 +24,6 @@ public class LeaderBoardServiceImpl implements LeaderBoardService{
 
         List<LeaderBoardRow> scores = scoreRepository.findFirst10();
 
-        log.info("leaderboard "+scores);
-
         // combine them with badges
        return scores.stream().map(row -> {
 

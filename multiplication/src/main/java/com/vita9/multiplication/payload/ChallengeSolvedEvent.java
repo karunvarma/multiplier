@@ -4,7 +4,7 @@ package com.vita9.multiplication.payload;
 import lombok.Value;
 
 @Value
-public class ChallengeSolvedDTO {
+public class ChallengeSolvedEvent {
     long attemptId;
     long userId;
     int factorA;

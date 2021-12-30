@@ -19,7 +19,10 @@ public class ChallengeServiceImpl implements ChallengeService {
     // we have DI in place.
     private final UserRepository userRepository;
     private final ChallengeAttemptRepository challengeAttemptRepository;
-    private final GamificationServiceClient gamificationServiceClient;
+
+//    private final GamificationServiceClient gamificationServiceClient;
+    private final ChallengeEventPub challengeEventPub;
+
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
@@ -47,9 +50,9 @@ public class ChallengeServiceImpl implements ChallengeService {
         // store the attempt
         ChallengeAttempt storedAttempt = challengeAttemptRepository.save(challengeAttempt);
 
-        boolean status = gamificationServiceClient.sendAttempt(storedAttempt);
-
-        log.info("Gamification service response {}",status);
+//        boolean status = gamificationServiceClient.sendAttempt(storedAttempt);
+        challengeEventPub.challengeSolved(storedAttempt);
+        log.info("pushing the challenge stored event to  broker");
         return storedAttempt;
     }
 
